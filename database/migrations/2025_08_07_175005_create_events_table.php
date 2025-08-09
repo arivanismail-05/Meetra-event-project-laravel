@@ -19,6 +19,8 @@ return new class extends Migration
             $table->text('image');
             $table->string('status')->default('1')->comment('1:active','2:deactive');
             $table->foreignId('admin_id')->constrained('admins')->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamp('start_event')->nullable();
+            $table->timestamp('end_event')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
