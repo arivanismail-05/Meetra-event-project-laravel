@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EventRequest;
+use App\Trait\UploadFile;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+
+
+
+    use UploadFile;
     /**
      * Display a listing of the resource.
      */
@@ -26,9 +32,15 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
-        //
+ 
+        $new_data = $request->validated();
+
+        $new_data['image'] = $this->upload_file($request,'image' , 'event_image');
+
+     auth()->guard('admin')->user()->events()->create($new_data);
+       return  redirect()->back();
     }
 
     /**

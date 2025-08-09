@@ -20,10 +20,5 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
-Route::prefix('admin')->group(function(){
-    Route::get('/home', [HomeController::class, 'index'])->name('admin.home');
-    Route::resource('events' , EventController::class)->names('admin.events');
-});
-
 require __DIR__.'/auth.php';
+require __DIR__.'/admin-auth.php';
