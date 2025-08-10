@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 class Event extends Model
 {
     
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
 
     protected $guarded = [ ];
@@ -20,7 +21,7 @@ class Event extends Model
         return $this->belongsTo(Admin::class , 'admin_id');
     }
 
-    protected $appends = ['full_path_image', 'created_at_readable'];
+    protected $appends = ['full_path_image', 'created_at_readable', 'deleted_at_readable'];
 
 
     public function getFullPathImageAttribute()
@@ -33,6 +34,13 @@ class Event extends Model
         return $this->created_at?->diffForHumans();
     }
 
+    public function getDeletedAtReadableAttribute()
+    {
 
+        if($this->deleted_at == null)
+            return 'Not Deleted';
+        else
+            return $this->deleted_at->diffForHumans();
+    }
 
 }

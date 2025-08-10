@@ -25,7 +25,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $data = Event::query()->with('admin');
+            $data = Event::query()->with('admin')->withTrashed();
             return DataTables::of($data)->addIndexColumn()
             ->make(true);
         }
@@ -97,7 +97,6 @@ class EventController extends Controller
     public function destroy(string $id)
     {
        $event =  Event::findOrFail($id);
-       $this->delete_file(public_path("event_image/{$event->image}"));
        $event->delete();
         return redirect()->route('admin.events.index');
 

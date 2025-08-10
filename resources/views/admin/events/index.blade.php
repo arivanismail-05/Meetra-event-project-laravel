@@ -18,6 +18,7 @@
                     <th scope="">start event </th>
                     <th scope="">end event </th>
                     <th scope="">created at</th>
+                    <th scope="">deleted at</th>
                     <th scope="">Actions</th>
                     </tr>
                 </thead>
@@ -85,6 +86,12 @@ $(function() {
             {
                 data: 'created_at_readable',
                 name: 'created_at_readable',
+                searchable: false,
+                orderable: false
+            },
+            {
+                data: 'deleted_at_readable',
+                name: 'deleted_at_readable',
                 searchable: false,
                 orderable: false
             },
