@@ -6,10 +6,7 @@ use App\Http\Controllers\Admin\EventController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->middleware('guest:admin')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('admin.register');
-
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    
 
     Route::get('login', [LoginController::class, 'create'])
         ->name('admin.login');
@@ -20,7 +17,9 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
 
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
+
     Route::resource('events' , EventController::class)->names('admin.events');
+    Route::resource('auth' , RegisteredUserController::class)->names('admin.auth');
 
     Route::get('/dashboard', function () {
     return view('admin.dashboard');

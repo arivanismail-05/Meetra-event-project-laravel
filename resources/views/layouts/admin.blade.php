@@ -174,14 +174,17 @@ button.dt-paging-button.disabled:hover {
           <li>
             <button type="button" class="flex items-center w-full p-2 text-base text-gray-300 transition duration-75 rounded-lg group hover:bg-[#373b5e] hover:text-gray-100 " aria-controls="dropdown-event-1" data-collapse-toggle="dropdown-event-1">
                   <i class="w-5 h-5 text-gray-300 group-hover:text-gray-100  transition duration-75 fa-solid fa-calendar-days shrink-0"></i>
-                  <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Events</span>
+                  <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Admins</span>
                   <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                   </svg>
             </button>
             <ul id="dropdown-event-1" class="hidden py-2 space-y-2">
                   <li>
-                     <a href="" class="flex items-center w-full p-2 text-gray-400 transition duration-75 rounded-lg pl-11 group hover:bg-gray-900 ">Products</a>
+                     <a href="{{ route('admin.auth.index') }}" class="flex items-center w-full p-2 text-gray-400 transition duration-75 rounded-lg pl-11 group hover:bg-gray-900 ">Show-admins</a>
+                  </li>
+                  <li>
+                     <a href="{{ route('admin.auth.create')}}" class="flex items-center w-full p-2 text-gray-400 transition duration-75 rounded-lg pl-11 group hover:bg-gray-900 ">Create-admin</a>
                   </li>
             </ul>
          </li>

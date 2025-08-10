@@ -6,17 +6,3 @@
         <p class="mt-3 italic text-red-500 "> {{ $message }} </p>
     @enderror
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

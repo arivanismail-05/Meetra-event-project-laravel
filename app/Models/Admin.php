@@ -53,4 +53,12 @@ class Admin extends Authenticatable
     {
         return $this->hasMany(Event::class, 'admin_id');
     }
+
+    protected $appends = [ 'created_at_readable'];
+
+    public function getCreatedAtReadableAttribute()
+    {
+        return $this->created_at?->diffForHumans();
+    }
+
 }
