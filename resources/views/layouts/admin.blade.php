@@ -5,16 +5,105 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tailwind Sidebar</title>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+     <script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
  crossorigin="anonymous" referrerpolicy="no-referrer" />
- <script src="https://cdn.tailwindcss.com"></script>
-  <!-- <script src="./tailwind3.js"></script> -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+<style>
+
+div.dt-container {
+    color: #A8AABC;
+}
+
+table.dataTable th,
+table.dataTable tfoot {
+    color: #FFFFFF; /* Brighter text for headers */
+    border-bottom: 1px solid #313552;
+}
+
+table.dataTable {
+    background-color: transparent;
+}
+
+table.dataTable tbody tr {
+    background-color: #24273F; /* Main background for rows */
+}
+
+table.dataTable td {
+    border-top: 1px solid #313552; /* Horizontal line between rows */
+}
+
+table.dataTable tbody tr:nth-of-type(odd) {
+    background-color: #24273F;
+}
+
+table.dataTable tbody tr:nth-of-type(even) {
+    background-color: #282b47; /* Slightly lighter for even rows */
+}
+
+table.dataTable tbody tr:hover {
+    background-color: #313552 !important; /* Use !important to override default styles */
+    color: #FFFFFF;
+}
+
+div.dt-search label,
+div.dt-length label {
+    color: #A8AABC;
+}
+
+div.dt-search input,
+div.dt-length select {
+    background-color: #191A24; /* Dark background for inputs */
+    color: #FFFFFF;
+    border: 1px solid #313552;
+    border-radius: 0.375rem; /* 6px */
+    margin-left: 0.5rem;
+}
+
+div.dt-info {
+    color: #A8AABC;
+}
+
+button.dt-paging-button {
+    background-color: #24273F;
+    color: #A8AABC !important; /* Use !important to override default link colors */
+    border: 1px solid #313552;
+    border-radius: 0.375rem; /* 6px */
+    margin: 0 2px;
+}
+
+button.dt-paging-button:hover {
+    background-color: #313552;
+    color: #FFFFFF !important;
+    border: 1px solid #4A69FF;
+}
+
+button.dt-paging-button.current,
+button.dt-paging-button.current:hover {
+    background-color: #4A69FF; /* Main accent color */
+    color: #FFFFFF !important;
+    border: 1px solid #4A69FF;
+}
+
+button.dt-paging-button.disabled,
+button.dt-paging-button.disabled:hover {
+    background-color: #24273F;
+    color: #5a5d7e !important; /* Faded text color */
+    border-color: #313552;
+    cursor: not-allowed;
+}
+</style>
+
+
+
 </head>
 
 <body class=" bg-[#1f202e]">
@@ -57,7 +146,7 @@
                   <form method="POST" action="{{ route('admin.logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">
                     @csrf
                     @method('DELETE')
-                    <button type="submit">
+                    <button>
                            logout
                     </button>
                 </form>
@@ -131,6 +220,8 @@
 
    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 </html>
 

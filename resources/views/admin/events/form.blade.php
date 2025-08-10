@@ -1,41 +1,40 @@
+
+
 @extends('layouts.admin')
 
 
 @section('content')
 <section>
-  <div class="px-4 mx-auto max-w-2xl">
+  <div class="max-w-2xl px-4 mx-auto">
       <h2 class="mb-4 text-xl font-bold text-gray-100">Create Event</h2>
-      <form action="{{ route('admin.events.store') }}" method="POST"     enctype="multipart/form-data"
->
+      <form action="{{ isset($data)  ? route('admin.events.update', ['event' => $data->id]) : route('admin.events.store') }}" 
+      method="POST"     
+      enctype="multipart/form-data">
         @csrf
+
+        @isset($data)
+           @method('PUT')
+        @endisset
+        
           <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-              <div class="sm:col-span-2">
-                  <label for="name" class="block mb-2 text-sm font-medium text-gray-100">Title</label>
-                  <input type="text" name="title" id="name" class="bg-[#2a2d4a] border border-gray-600 text-gray-100 text-sm rounded-lg focus:ring-[#4A69FF] focus:border-[#4A69FF] block w-full p-2.5" placeholder="title" required>
-              </div>
-              <div class="sm:col-span-2">
-                  <label for="location" class="block mb-2 text-sm font-medium text-gray-100">Location</label>
-                  <input type="text" name="location" id="location" class="bg-[#2a2d4a] border border-gray-600 text-gray-100 text-sm rounded-lg focus:ring-[#4A69FF] focus:border-[#4A69FF] block w-full p-2.5" placeholder="located here" required>
-              </div>
+              
+              <x-form.input  title="Title" name="title" type="text" :dt="isset($data) ? $data : false " plc="title"/>
+              <x-form.input  title="Location" name="location" type="text" :dt="isset($data) ? $data : false " plc="location"/>
+
               <div class="sm:col-span-2">
                   <label class="block mb-2 text-sm font-medium text-gray-100" for="file_input">Image</label>
-                  <input name="image" class="block w-full text-sm text-gray-100 border border-gray-600 rounded-lg cursor-pointer bg-[#2a2d4a] focus:outline-none" id="file_input" type="file">
+                  <input value="{{ isset($data) ? $data->image : old('image') }}" name="image" class="block w-full text-sm text-gray-100 border border-gray-600 rounded-lg cursor-pointer bg-[#2a2d4a] focus:outline-none" id="file_input" type="file">
               </div> 
-              <div class="w-full">
-                  <label for="start_event" class="block mb-2 text-sm font-medium text-gray-100">Started</label>
-                  <input type="datetime-local" name="start_event" id="start_event" class="bg-[#2a2d4a] border border-gray-600 text-gray-100 text-sm rounded-lg focus:ring-[#4A69FF] focus:border-[#4A69FF] block w-full p-2.5" required>
-              </div>
-              <div class="w-full">
-                  <label for="end_event" class="block mb-2 text-sm font-medium text-gray-100">Ended</label>
-                  <input type="datetime-local" name="end_event" id="end_event" class="bg-[#2a2d4a] border border-gray-600 text-gray-100 text-sm rounded-lg focus:ring-[#4A69FF] focus:border-[#4A69FF] block w-full p-2.5" required>
-              </div>
+
+              <x-form.inputstartend   title="Start" name="start_event"  :dt="isset($data) ? $data : false" />
+              <x-form.inputstartend   title="End" name="end_event"  :dt="isset($data) ? $data : false" />
+
               <div class="sm:col-span-2">
                   <label for="body" class="block mb-2 text-sm font-medium text-gray-100">Body</label>
-                  <textarea name="body" id="body" rows="8" class="block p-2.5 w-full text-sm text-gray-100 bg-[#2a2d4a] rounded-lg border border-gray-600 focus:ring-[#4A69FF] focus:border-[#4A69FF]" placeholder="Your Body here"></textarea>
+                  <textarea  name="body" id="body" rows="8" class="block w-full text-sm text-gray-100 bg-[#2a2d4a] rounded-lg border border-gray-600 focus:ring-[#4A69FF] p-2 focus:border-[#4A69FF]">{{ isset($data) ? $data->body : old('body') }}</textarea>
               </div>
           </div>
-          <button type="submit"
-           class="text-white bg-[#4A69FF] hover:bg-[#3A54D1] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mt-2 focus:outline-none">Default</button>
+          <x-form.button  checkdata="{{ isset($data) ? true : false }}"/>
       </form>
   </div>
 </section>

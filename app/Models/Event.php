@@ -20,6 +20,19 @@ class Event extends Model
         return $this->belongsTo(Admin::class , 'admin_id');
     }
 
+    protected $appends = ['full_path_image', 'created_at_readable'];
+
+
+    public function getFullPathImageAttribute()
+    {
+        return env('APP_URL').'event_image/'.$this->image;
+    }
+
+    public function getCreatedAtReadableAttribute()
+    {
+        return $this->created_at?->diffForHumans();
+    }
+
 
 
 }
