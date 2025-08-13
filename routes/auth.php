@@ -9,9 +9,12 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\ShowEvents;
 use Illuminate\Support\Facades\Route;
 
+
 Route::middleware('guest')->group(function () {
+
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
@@ -36,6 +39,23 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+
+
+    Route::get('dashboard', [ShowEvents::class, 'index'])
+        ->name('dashboard');
+
+        Route::post('events/{id}/store', [ShowEvents::class, 'store'])
+        ->name('events.store');
+
+        Route::get('events/{id}/join-page', [ShowEvents::class, 'join_page'])
+        ->name('events.join-page');
+
+        Route::delete('events/{event}', [ShowEvents::class, 'destroy'])
+        ->name('events.leave');
+
+
+    Route::get('events/{event}', [ShowEvents::class, 'show'])
+        ->name('events.show');
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 

@@ -21,6 +21,13 @@ class Event extends Model
         return $this->belongsTo(Admin::class , 'admin_id');
     }
 
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'event_users', 'event_id', 'user_id')
+        ->withTimestamps();
+    }
+
     protected $appends = ['full_path_image', 'created_at_readable', 'deleted_at_readable'];
 
 
