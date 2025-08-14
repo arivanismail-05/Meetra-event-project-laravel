@@ -23,11 +23,11 @@
                 </div>
                 <div class="mb-2">
                     <span class="font-semibold text-gray-700">Start:</span>
-                    <span class="text-gray-800">{{ \Carbon\Carbon::parse($event->start_event)->format('F j, Y g:i A') }}</span>
+                    <span class="text-gray-800">{{ \Carbon\Carbon::parse($event->start_event)->format('F j, Y h:i A') }}</span>
                 </div>
                 <div class="mb-4">
                     <span class="font-semibold text-gray-700">End:</span>
-                    <span class="text-gray-800">{{ \Carbon\Carbon::parse($event->end_event)->format('F j, Y g:i A') }}</span>
+                    <span class="text-gray-800">{{ \Carbon\Carbon::parse($event->end_event)->format('F j, Y h:i A') }}</span>
                 </div>
                 <h2 class="mb-4 text-xl font-semibold text-gray-700">Joiners</h2>
                 <ul>
@@ -45,41 +45,44 @@
             </div>
     </div>
 
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Main beforeunload handler
+    let isReloading = false;
+
+    window.addEventListener('beforeunload', function(e) {
+        if (performance.navigation.type === PerformanceNavigation.TYPE_RELOAD) {
+            isReloading = true;
+        }
+    });
+
     window.addEventListener('beforeunload', function(e) {
         @if($event->users()->where('user_id', auth()->id())->exists())
-            // Optional confirmation dialog
-            e.preventDefault();
-            e.returnValue = 'Are you sure you want to leave the event?';
-            
-            // Send the leave request
-            fetch('{{ route("events.leave", $event->id) }}', {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Content-Type': 'application/json'
-                },
-                keepalive: true
-            }).catch(error => {
-                console.error('Error leaving event:', error);
-            });
-            
-            return e.returnValue;
+            if (!isReloading) { 
+                e.preventDefault();
+                e.returnValue = 'Are you sure you want to leave the event?';
+                
+                fetch('{{ route("events.leave", $event->id) }}', {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                    keepalive: true
+                }).catch(error => {
+                    console.error('Error leaving event:', error);
+                });
+                
+                return e.returnValue;
+            }
         @endif
     });
 
-    // Handle the actual leave button click
     const leaveForm = document.querySelector('form[action="{{ route('events.leave', $event->id) }}"]');
     if (leaveForm) {
         leaveForm.addEventListener('submit', function() {
-            // Remove the beforeunload handler when using the proper leave button
             window.removeEventListener('beforeunload');
         });
     }
 });
 </script>
-
 </x-app-layout>
