@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
         ->name('events.store');
 
         Route::get('events/{id}/join-page', [ShowEvents::class, 'join_page'])
-        ->name('events.join-page');
+        ->name('events.join-page')->middleware('isJoiner');
 
         Route::delete('events/{event}', [ShowEvents::class, 'destroy'])
         ->name('events.leave');

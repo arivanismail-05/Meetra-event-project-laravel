@@ -50,4 +50,10 @@ class Event extends Model
             return $this->deleted_at->diffForHumans();
     }
 
+
+    public function hasJoiner($userId)
+    {
+        return $this->users()->where('user_id', $userId)->exists();
+    }
+
 }

@@ -1,15 +1,15 @@
 <x-app-layout>
     <div class="">
             <div class="w-[300px] bg-slate-300 p-8 border-l h-screen">
-                <div class="mb-2 flex justify-between items-center">
+                <div class="flex items-center justify-between mb-2">
                     <div>
-                        <h2 class="text-xl font-semibold text-gray-700 mb-4">Event Details</h2>
+                        <h2 class="mb-4 text-xl font-semibold text-gray-700">Event Details</h2>
                     </div>
                     <div>
                 <form action="{{ route('events.leave', $event->id) }}" method="POST" class="mb-4">
                     @csrf
                     @method('DELETE')
-                    <button class="bg-red-500 text-white px-4 py-2 rounded text-sm">Leave event</button>
+                    <button class="px-4 py-2 text-sm text-white bg-red-500 rounded">Leave event</button>
                 </form>
                 </div>
                 </div>
@@ -29,11 +29,11 @@
                     <span class="font-semibold text-gray-700">End:</span>
                     <span class="text-gray-800">{{ \Carbon\Carbon::parse($event->end_event)->format('F j, Y g:i A') }}</span>
                 </div>
-                <h2 class="text-xl font-semibold text-gray-700 mb-4">Joiners</h2>
+                <h2 class="mb-4 text-xl font-semibold text-gray-700">Joiners</h2>
                 <ul>
                     @forelse($joiners as $joiner)
-                        <li class="mb-2 flex items-center">
-                            <span class=" w-8 h-8 rounded-full bg-blue-200 text-blue-800 flex items-center justify-center mr-3">
+                        <li class="flex items-center mb-2">
+                            <span class="flex items-center justify-center w-8 h-8 mr-3 text-blue-800 bg-blue-200 rounded-full ">
                                 {{ strtoupper(substr($joiner->name, 0, 1)) }}
                             </span>
                             <span class="text-gray-800">{{ $joiner->name }}</span>
@@ -44,4 +44,42 @@
                 </ul>
             </div>
     </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Main beforeunload handler
+    window.addEventListener('beforeunload', function(e) {
+        @if($event->users()->where('user_id', auth()->id())->exists())
+            // Optional confirmation dialog
+            e.preventDefault();
+            e.returnValue = 'Are you sure you want to leave the event?';
+            
+            // Send the leave request
+            fetch('{{ route("events.leave", $event->id) }}', {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                },
+                keepalive: true
+            }).catch(error => {
+                console.error('Error leaving event:', error);
+            });
+            
+            return e.returnValue;
+        @endif
+    });
+
+    // Handle the actual leave button click
+    const leaveForm = document.querySelector('form[action="{{ route('events.leave', $event->id) }}"]');
+    if (leaveForm) {
+        leaveForm.addEventListener('submit', function() {
+            // Remove the beforeunload handler when using the proper leave button
+            window.removeEventListener('beforeunload');
+        });
+    }
+});
+</script>
+
 </x-app-layout>
