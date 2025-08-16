@@ -54,17 +54,16 @@ class ShowEvents extends Controller
         if ($event->users()->where('user_id', $user->id)->exists()) {
             $event->users()->detach($user->id);
             
-            // if (request()->wantsJson()) {
-            //     return response()->json(['success' => true]);
-            // }
-            
             return redirect()->route('dashboard');
         }
 
-        // if (request()->wantsJson()) {
-        //     return response()->json(['success' => false], 400);
-        // }
-
         return redirect()->route('dashboard');
+    }
+
+
+    public function getJoiners(Event $event)
+    {
+        $joiners = $event->users()->latest()->get();
+        return response()->json($joiners);
     }
 }

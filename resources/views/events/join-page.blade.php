@@ -30,18 +30,18 @@
                     <span class="text-gray-800">{{ \Carbon\Carbon::parse($event->end_event)->format('F j, Y h:i A') }}</span>
                 </div>
                 <h2 class="mb-4 text-xl font-semibold text-gray-700">Joiners</h2>
-                <ul>
-                    @forelse($joiners as $joiner)
-                        <li class="flex items-center mb-2">
-                            <span class="flex items-center justify-center w-8 h-8 mr-3 text-blue-800 bg-blue-200 rounded-full ">
-                                {{ strtoupper(substr($joiner->name, 0, 1)) }}
-                            </span>
-                            <span class="text-gray-800">{{ $joiner->name }}</span>
-                        </li>
-                    @empty
-                        <li class="text-gray-500">No joiners yet.</li>
-                    @endforelse
-                </ul>
+                    <ul id="joiners-list">
+                        @forelse($joiners as $joiner)
+                            <li class="flex items-center mb-2">
+                                <span class="flex items-center justify-center w-8 h-8 mr-3 text-blue-800 bg-blue-200 rounded-full">
+                                    {{ strtoupper(substr($joiner->name, 0, 1)) }}
+                                </span>
+                                <span class="text-gray-800">{{ $joiner->name }}</span>
+                            </li>
+                        @empty
+                            <li class="text-gray-500">No joiners yet.</li>
+                        @endforelse
+                    </ul>
             </div>
     </div>
 
@@ -84,5 +84,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+
+function fetchJoiners() {
+    fetch("{{ route('events.joiners', $event->id) }}")
+        .then(response => response.json())
+        .then(joiners => {
+            let html = '';
+            if (joiners.length > 0) {
+                joiners.forEach(joiner => {
+                    html += `
+                    <li class="flex items-center mb-2">
+                        <span class="flex items-center justify-center w-8 h-8 mr-3 text-blue-800 bg-blue-200 rounded-full">
+                            ${joiner.name.charAt(0).toUpperCase()}
+                        </span>
+                        <span class="text-gray-800">${joiner.name}</span>
+                    </li>`;
+                });
+            } else {
+                html = '<li class="text-gray-500">No joiners yet.</li>';
+            }
+            document.getElementById('joiners-list').innerHTML = html;
+        });
+}
+
+// Update every 3 seconds
+setInterval(fetchJoiners, 3000);
+fetchJoiners(); // Initial load
 </script>
+
 </x-app-layout>

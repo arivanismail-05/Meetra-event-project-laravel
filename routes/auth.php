@@ -41,6 +41,10 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
 
 
+    // Add this with your other routes
+    Route::get('/events/{event}/joiners', [ShowEvents::class, 'getJoiners'])
+    ->name('events.joiners');
+
     Route::get('dashboard', [ShowEvents::class, 'index'])
         ->name('dashboard');
 
